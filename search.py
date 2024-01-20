@@ -1,5 +1,6 @@
 import os
 from docx import Document
+from concurrent.futures import ThreadPoolExecutor
 
 def search(fpath, target):
     try:
@@ -12,16 +13,20 @@ def search(fpath, target):
         print(e)
         return False
 
+def process_file(file):
+    fname, target = file
+    fpath = os.path.join(os.getcwd(), fname)
+    if search(fpath=fpath, target=target):
+        print("Found in ", fname)
+    else:
+        print("Not found in ", fname)
+        
 def main():
     target = "hirusha"
-    cwd = os.getcwd()
-    for fname in os.listdir(cwd):
-        if fname.endswith(".docx"):
-            fpath = os.path.join(cwd, fname)
-            if search(fpath=fpath, target=target):
-                print("Found in ", fname)
-            else:
-                print("Not found in ", fname)
+    all_files = [(fname, target) for fname in os.listdir() if fname.endswith(".docx")]
+    
+    with ThreadPoolExecutor() as  executor:
+        executor.map(process_file, all_files)
 
 if __name__ == "__main__":
     main()
