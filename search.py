@@ -14,7 +14,7 @@ def success(self, message, *args, **kwargs):
 logging.Logger.success = success
 
 # configure logger
-log_format = '[%(levelname)s] %(asctime)s: %(message)s'
+log_format = '(%(asctime)s) [%(levelname)s] %(message)s'
 log_file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.log'
 log_file_path = os.path.join(os.getcwd(), log_file_name)
 
