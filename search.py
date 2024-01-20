@@ -5,14 +5,6 @@ from docx import Document
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
-# add our own logging level
-SUCCESS = 25 
-logging.addLevelName(SUCCESS, "SUCCESS")
-def success(self, message, *args, **kwargs):
-    if self.isEnabledFor(SUCCESS):
-        self._log(SUCCESS, message, args, **kwargs)
-logging.Logger.success = success
-
 # configure logger
 log_format = '(%(asctime)s) [%(levelname)s] %(message)s'
 log_file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.log'
@@ -40,9 +32,9 @@ def process_file(file):
     fname, target = file
     fpath = os.path.join(os.getcwd(), fname)
     if check(fpath, target):
-        logger.success(f"'{target}' found in {fname}")
+        logger.info(f"'{target}' found in {fname}")
     else:
-        logger.info(f"'{target}' not found in {fname}")
+        logger.debug(f"'{target}' not found in {fname}")
 
 def main():
     parser = argparse.ArgumentParser(description='Search for a word in .docx files in the current directory.')
@@ -61,4 +53,4 @@ if __name__ == "__main__":
     main()
     end_time = time.time()
     execution_time = end_time - start_time
-    logger.info(f"Execution Time: {execution_time} seconds")
+    logger.debug(f"Execution Time: {execution_time} seconds")
