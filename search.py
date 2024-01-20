@@ -11,7 +11,7 @@ log_file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.log'
 log_file_path = os.path.join(os.getcwd(), log_file_name)
 
 logging.basicConfig(level=logging.DEBUG, format=log_format, handlers=[
-    logging.FileHandler(log_file_path),
+    logging.FileHandler(log_file_path, encoding='utf-8'),
     logging.StreamHandler()
 ])
 
@@ -62,14 +62,18 @@ def main():
     @rtype: None
     """
     parser = argparse.ArgumentParser(description='Search for a word in .docx files in the current directory.')
-    parser.add_argument('word', type=str, help='The word to search for')
+    parser.add_argument('word', nargs='?', type=str, help='The word to search for (optional if not provided, will prompt user)')
     args = parser.parse_args()
 
-    target = args.word
+    if args.word is None:
+        target = input("Enter the word to search for: ")
+    else:
+        target = args.word
+
     file_list = [(fname, target) for fname in os.listdir() if fname.endswith(".docx")]
 
     with ThreadPoolExecutor() as executor:
-        executor.map(process_file, file_list)
+        executor.map(process_file, file_list) # හිරුෂඅදිකාරී
 
 if __name__ == "__main__":
     import time
