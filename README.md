@@ -40,6 +40,21 @@ The `docx-search` Python script is a tool designed to search for a specified wor
 5. **Execution Time:**
    - The script logs the execution time, providing insights into the performance of the search operation.
 
+**Using as a Module:**
+
+1. **Import the Module:**
+
+   - Import the `docx_search` module into your Python script:
+     ```python
+     from docx_search import docx_search
+     ```
+
+2. **Perform Word Search:**
+   - Call the `docx_search` function with the desired target directory and word:
+     ```python
+     docx_search(target_dir="/path/to/documents", target_word="example")
+     ```
+
 **Notes:**
 
 - Ensure the `python-docx` library is installed before running the script.
@@ -54,7 +69,4 @@ The `docx-search` Python script is a tool designed to search for a specified wor
 
 **Acknowledgments:**
 
-- Special thanks to the developers of the `python-docx` library.
-- Documentation and this README.md file was generated using Chat-GPT
-
-Enjoy searching for words in your Word documents with `docx-search`!
+- This readme.md and the docstrings were generated with ChatGPT, a language model developed by OpenAI.
