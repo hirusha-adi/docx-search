@@ -6,6 +6,7 @@ from datetime import datetime
 import tkinter as tk
 from tkinter import filedialog
 import customtkinter
+from CTkListbox import *
 
 # Configure logger
 log_format = '(%(asctime)s) [%(levelname)s] %(message)s'
@@ -54,6 +55,7 @@ def perform_search(target_dir=None, target_word=None):
         results = list(executor.map(__process_file, file_list))
 
     return [result for result in results if result is not None]
+
 class DocumentSearchApp:
     def __init__(self, master):
         self.master = master
@@ -71,7 +73,7 @@ class DocumentSearchApp:
         self.search_button = customtkinter.CTkButton(master, text="Search", command=self.search_documents)
         self.search_button.pack()
 
-        self.result_listbox = tk.Listbox(master)
+        self.result_listbox = CTkListbox(master)
         self.result_listbox.pack()
         self.result_listbox.bind("<Double-Button-1>", self.open_file)
 
@@ -108,6 +110,6 @@ class DocumentSearchApp:
             os.startfile(file_path)
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = customtkinter.CTk()
     app = DocumentSearchApp(root)
     root.mainloop()
