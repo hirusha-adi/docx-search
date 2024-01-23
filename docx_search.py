@@ -70,7 +70,7 @@ def __main(target_dir=None, target_word=None):
     elif args.word is not None and args.word != '':
         target = args.word
     else:
-        raise ValueError("Both target_word and args.word are None or empty strings.")
+        raise ValueError("Both target_word and args.word are None or empty strings. Please pass in correct values.")
 
     file_list = [(fname, target) for fname in os.listdir(target_dir) if fname.endswith(".docx")]
 
