@@ -1,5 +1,6 @@
 import os
 import logging
+import json
 from docx import Document
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -56,6 +57,39 @@ def __process_file(file):
     else:
         logger.debug("'%s' not found in %s" % (target, fname))
 
+def load_config_json(file_list):
+    """
+    Load configuration from config.json and update the file_list with absolute paths of .docx files
+    from the specified directories and their subdirectories.
+
+    @param file_list: List of tuples (filename, target_word)
+    @type file_list: list
+    @return: None
+    @rtype: None
+    """
+    config_file_path = os.path.join(os.getcwd(), 'config.json')
+
+    if os.path.exists(config_file_path):
+        logger.debug(f"Found config file at: {config_file_path}")
+        with open(config_file_path, 'r') as config_file:
+            config_data = json.load(config_file)
+
+            if 'dirs' in config_data and isinstance(config_data['dirs'], list):
+                logger.debug(f"Found {len(config_data['dirs'])} directories in 'dirs'")
+                for directory in config_data['dirs']:
+                    directory_path = os.path.abspath(directory)
+
+                    for entry in os.scandir(directory_path):
+                        if entry.is_file() and entry.name.endswith(".docx"):
+                            file_list.append((entry.path, target_word))
+                        elif entry.is_dir():
+                            for root, _, files in os.walk(entry.path):
+                                for fname in files:
+                                    if fname.endswith(".docx"):
+                                        file_list.append((os.path.join(root, fname), target_word))
+            else:
+                logger.debug("Error in 'dirs' key of config file")
+                
 def __main(target_dir=None, target_word=None):
     """
     Main function to search for a word in .docx files in the current directory.
@@ -73,8 +107,9 @@ def __main(target_dir=None, target_word=None):
     if target_dir is None:
         target_dir = os.getcwd()
 
-    file_list = [(fname, target_word) for fname in os.listdir(target_dir) if fname.endswith(".docx")]
-
+    file_list = []
+    load_config_json(file_list)
+    
     with ThreadPoolExecutor() as executor:
         executor.map(__process_file, file_list)
 
