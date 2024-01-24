@@ -5,6 +5,8 @@ from docx import Document
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
+COUNT_FOUND = 0
+
 # Configure logger
 if not os.path.isdir('logs'):
     os.mkdir('logs')
@@ -50,14 +52,17 @@ def __process_file(file):
     @return: None
     @rtype: None
     """
+    global COUNT_FOUND
+    
     fname, target = file
     fpath = os.path.join(os.getcwd(), fname)
     if __check(fpath, target):
+        COUNT_FOUND += 1
         logger.info("'%s' found in %s" % (target, fname))
     else:
         logger.debug("'%s' not found in %s" % (target, fname))
 
-def load_config_json(file_list):
+def __load_config_json(file_list):
     """
     Load configuration from config.json and update the file_list with absolute paths of .docx files
     from the specified directories and their subdirectories.
@@ -77,6 +82,7 @@ def load_config_json(file_list):
             if 'dirs' in config_data and isinstance(config_data['dirs'], list):
                 logger.debug(f"Found {len(config_data['dirs'])} directories in 'dirs'")
                 for directory in config_data['dirs']:
+                    logger.debug(f"Traversing through: '{directory}'")
                     directory_path = os.path.abspath(directory)
 
                     for entry in os.scandir(directory_path):
@@ -108,8 +114,8 @@ def __main(target_dir=None, target_word=None):
         target_dir = os.getcwd()
 
     file_list = []
-    load_config_json(file_list)
-    
+    __load_config_json(file_list)
+    logger.debug(f"Discovered {len(file_list)} files.")
     with ThreadPoolExecutor() as executor:
         executor.map(__process_file, file_list)
 
@@ -131,6 +137,7 @@ def docx_search(target_dir=None, target_word=None):
     __main(target_dir=target_dir, target_word=target_word)
     end_time = time.time()
     execution_time = end_time - start_time
+    logger.debug(f"Found '{target_word}' in {COUNT_FOUND} files")
     logger.debug("Execution Time: %s seconds" % execution_time)
 
 if __name__ == "__main__":
