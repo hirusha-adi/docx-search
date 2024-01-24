@@ -5,6 +5,9 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
 # Configure logger
+if not os.path.isdir('logs'):
+    os.mkdir('logs')
+
 log_format = '(%(asctime)s) [%(levelname)s] %(message)s'
 log_file_name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.log'
 log_file_path = os.path.join(os.getcwd(), "logs", log_file_name)
@@ -96,4 +99,18 @@ def docx_search(target_dir=None, target_word=None):
     logger.debug("Execution Time: %s seconds" % execution_time)
 
 if __name__ == "__main__":
-    docx_search()
+    import argparse
+    parser = argparse.ArgumentParser(description='Search for a word in .docx files in a specified directory.')
+    parser.add_argument('--dir', dest='target_dir', type=str, default=os.getcwd(),
+                        help='The target directory to search for .docx files. Defaults to the current working directory.')
+    parser.add_argument('--word', dest='target_word', type=str,
+                        help='The word to search for in the documents. If not provided, the user will be prompted.')
+    args = parser.parse_args()
+
+    target_dir = args.target_dir
+    target_word = args.target_word
+
+    if not target_word:
+        target_word = input("Enter the word to search for: ")
+
+    docx_search(target_dir=target_dir, target_word=target_word)
