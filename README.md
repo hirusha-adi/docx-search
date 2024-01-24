@@ -6,6 +6,7 @@
 </p>
 
 **Description:**
+
 The `docx-search` Python script is a tool designed to search for a specified word within Microsoft Word (.docx) documents in a given directory. It utilizes the `python-docx` library for handling Word documents and implements multi-threading to improve search efficiency.
 
 **Features:**
@@ -15,6 +16,7 @@ The `docx-search` Python script is a tool designed to search for a specified wor
 - **Multi-threading:** The script utilizes the `concurrent.futures.ThreadPoolExecutor` to concurrently process multiple Word documents, improving overall search performance.
 
 **Graphical User Interface**
+
 A GUI for this can be found at
 
 - [Sinhala-Typing/docx-search-gui-tk](https://github.com/Sinhala-Typing/docx-search-gui-tk)
