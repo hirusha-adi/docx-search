@@ -1,5 +1,10 @@
 # docx-search
 
+
+<p align="center">
+  <img src="https://github.com/hirusha-adi/docx-search/assets/36286877/3c2d9933-8460-43ba-b8b3-773940cc3cb4" />
+</p>
+
 **Description:**
 The `docx-search` Python script is a tool designed to search for a specified word within Microsoft Word (.docx) documents in a given directory. It utilizes the `python-docx` library for handling Word documents and implements multi-threading to improve search efficiency.
 
@@ -80,3 +85,5 @@ A GUI for this can be found at
 **Acknowledgments:**
 
 - This readme.md and the docstrings were generated with ChatGPT, a language model developed by OpenAI.
+
+
