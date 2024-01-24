@@ -9,12 +9,22 @@ The `docx-search` Python script is a tool designed to search for a specified wor
 - **Logging:** Detailed logging is implemented, capturing information about the search process, including the presence or absence of the target word in each document.
 - **Multi-threading:** The script utilizes the `concurrent.futures.ThreadPoolExecutor` to concurrently process multiple Word documents, improving overall search performance.
 
+**Graphical User Interface**
+A GUI for this can be found at
+
+- [Sinhala-Typing/docx-search-gui-tk](https://github.com/Sinhala-Typing/docx-search-gui-tk)
+- [Sinhala-Typing/docx-search-gui-customtkinter](https://github.com/Sinhala-Typing/docx-search-gui-customtkinter)
+
 **Getting Started:**
 
 1. **Requirements:**
 
    - Python 3.x
-   - Install required Python packages using `pip install python-docx`
+   - Install required Python packages using
+
+   ```
+   pip install -r requirements.txt
+   ```
 
 2. **Usage:**
 
